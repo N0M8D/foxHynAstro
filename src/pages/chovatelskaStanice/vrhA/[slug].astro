@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from "astro:content";
+import PuppieDetail from "../../../layouts/PuppieDetail.astro";
+
+export async function getStaticPaths() {
+    const puppies = await getCollection("puppies");
+
+    return puppies.map((puppy) => ({
+        params: { slug: puppy.id.replace(/\.mdx?$/, "") }, // odstraníme příponu
+    }));
+}
+
+const { slug } = Astro.params;
+
+// Získáme dané štěně podle slugu
+const puppies = await getCollection("puppies");
+const post = puppies.find((p) => p.id.replace(/\.mdx?$/, "") === slug);
+
+if (!post) {
+    throw new Error(`Štěně s id "${slug}" nebylo nalezeno.`);
+}
+
+// Vyrenderujeme MDX obsah
+const { Content } = await render(post);
+---
+
+<PuppieDetail {...post.data}>
+    <Content />
+</PuppieDetail>

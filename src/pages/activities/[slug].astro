@@ -1,0 +1,29 @@
+---
+// src/pages/aktivity/[slug].astro
+import { getCollection, render } from "astro:content";
+import ActivityDetail from "../../layouts/ActivityDetail.astro"; // nebo použij Layout
+
+export async function getStaticPaths() {
+    const activities = await getCollection("activities");
+    return activities.map((act) => ({
+        params: { slug: act.id.replace(/\.mdx?$/, "") },
+    }));
+}
+
+const { slug } = Astro.params;
+
+// Najdeme MDX soubor podle slugu:
+const activities = await getCollection("activities");
+const post = activities.find((a) => a.id.replace(/\.mdx?$/, "") === slug);
+
+if (!post) {
+    throw new Error(`Aktivita s id "${slug}" nebyla nalezena.`);
+}
+
+// Vyrenderujeme obsah:
+const { Content } = await render(post);
+---
+
+<ActivityDetail {...post.data}>
+    <Content />
+</ActivityDetail>

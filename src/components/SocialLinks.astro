@@ -1,0 +1,50 @@
+---
+import { socialLinks } from "../settings/socialLinks";
+---
+
+<div class="component-social-icons">
+    {
+        socialLinks.map((link) => (
+            <a
+                class="component-social-icons__link"
+                href={link.href}
+                target="_blank"
+                rel="noopener"
+            >
+                <span class="sr-only">{link.label}</span>
+                <span
+                    class="component-social-icons__icon"
+                    set:html={link.iconSvg}
+                />
+            </a>
+        ))
+    }
+</div>
+
+<style>
+    .component-social-icons {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 0.5rem !important;
+        margin-top: 1rem !important;
+    }
+    .component-social-icons__link {
+        text-decoration: none;
+        color: rgb(var(--gray));
+        transition: color 0.2s ease;
+    }
+    .component-social-icons__link:hover {
+        color: rgb(var(--gray-dark));
+    }
+    .component-social-icons__icon {
+        display: inline-block !important;
+        width: 32px !important;
+        height: 32px !important;
+    }
+    .component-social-icons__icon svg {
+        width: 100% !important;
+        height: 100% !important;
+        display: block !important;
+    }
+</style>

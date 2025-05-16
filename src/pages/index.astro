@@ -1,0 +1,118 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+	<section class="about-page">
+		<h1>O mně a FoxHyn</h1>
+
+		<div class="about-grid">
+			<!-- LEVÝ SLOUPEC: fotka + bio + kontakty -->
+			<div>
+				<div>
+					<img
+						src="/images/brand/paja_AboutPhoto.jpg"
+						alt="Pavla a její psi"
+					/>
+				</div>
+
+				<div class="prose bio">
+					<p>
+						Mám v srdci speciální místo pro focení a zvířata. Jsem
+						pečlivá, empatická a mám cit pro detail. Mými dalšími
+						koníčky je i hraní her, primárně tedy Assassin’s Creed
+						nebo trávit čas se svým přítelem.
+					</p>
+					<p>
+						Ráda sportuji, ale nikdy ne sama. Ráda běhám se svou
+						sestrou nebo se svými pejsky, ale ti mají radši agility
+						nebo pasení.
+					</p>
+					<p>
+						V budoucnu bych se ráda focením a úpravou fotek i
+						živila. Ráda se posouvám a zlepšuji, nedokážu zůstat
+						měsíc na stejné úrovni.
+					</p>
+				</div>
+			</div>
+
+			<!-- PRAVÝ SLOUPEC: Co je FoxHyn + logo -->
+			<div class="about-right prose">
+				<h2>Co je FoxHyn?</h2>
+				<p>
+					FoxHyn je kombinace slov „Fox“ a „Hyena“, vzniklo to z
+					vzhledů mých dvou miláčků Meggie a Arišky, kde Meggie vypadá
+					jako lištička a Ariška jako hyena (i chová se jako hyena).
+				</p>
+				<p>
+					Název jsem vymyslela primárně pro mou chovatelskou stanici,
+					ale zalíbilo se mi to natolik, že pod ním vystupuji a
+					podepisuji si i své fotky.
+				</p>
+
+				<div class="logo-wrapper">
+					<img
+						src="/images/brand/FoxHyn_Grayscale.svg"
+						alt="FoxHyn logo"
+						class="logo-img"
+					/>
+				</div>
+			</div>
+		</div>
+
+		<address class="contact">
+			<p>info@foxhyn.com</p>
+			<p>Narysov 4</p>
+			<p>Narysov, Central Bohemia 26101</p>
+			<p>Czech Republic</p>
+		</address>
+	</section>
+</Layout>
+
+<style>
+	.about-page {
+		max-width: 960px;
+		margin: auto;
+		padding: 3rem 1rem;
+	}
+	.about-page h1 {
+		text-align: center;
+		font-size: 2.5rem;
+		margin-bottom: 2rem;
+		color: rgb(var(--black));
+	}
+
+	.about-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 2rem;
+	}
+	@media (min-width: 768px) {
+		.about-grid {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.bio p {
+		margin-bottom: 1em;
+		color: rgb(var(--gray-dark));
+	}
+
+	.contact {
+		text-align: left;
+		font-size: 1.1rem;
+		line-height: 1.4;
+		color: rgb(var(--gray-dark));
+	}
+
+	/* PRAVÝ SLOUPEC */
+	.about-right h2 {
+		margin-top: 0;
+		font-size: 1.75rem;
+		color: rgb(var(--black));
+	}
+	.about-right p {
+		margin-bottom: 1em;
+		color: rgb(var(--gray-dark));
+	}
+</style>

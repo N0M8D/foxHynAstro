@@ -1,0 +1,115 @@
+---
+import type { CollectionEntry } from "astro:content";
+import Layout from "../layouts/Layout.astro";
+import Gallery from "../components/Gallery.astro";
+
+type Props = CollectionEntry<"puppies">["data"];
+const {
+    title,
+    name,
+    breed,
+    born,
+    coat,
+    health,
+    activities,
+    parents,
+    titles,
+    shows,
+    gallery = [],
+} = Astro.props;
+---
+
+<Layout title={title} description={breed}>
+    <article class="puppy-detail">
+        <a href="./" class="back-link">← Zpět na vrh</a>
+
+        <h1>{name}</h1>
+        <slot />
+
+        <h2>{title}</h2>
+        <ul>
+            <li><b>Plemeno:</b> {breed}</li>
+            <li><b>Datum narození:</b> {born.toLocaleDateString("cs-CZ")}</li>
+            {
+                parents && (
+                    <>
+                        <li>
+                            <b>Matka:</b> {parents.mom}
+                        </li>
+                        <li>
+                            <b>Otec:</b> {parents.dad}
+                        </li>
+                    </>
+                )
+            }
+            {
+                coat && (
+                    <li>
+                        <b>Srst:</b> {coat}
+                    </li>
+                )
+            }
+            {
+                health && (
+                    <li>
+                        <b>Zdraví:</b> {health}
+                    </li>
+                )
+            }
+            {
+                activities && (
+                    <li>
+                        <b>Aktivity:</b> {activities}
+                    </li>
+                )
+            }
+            {
+                titles && (
+                    <li>
+                        <b>Tituly:</b> {titles}
+                    </li>
+                )
+            }
+            {
+                shows && (
+                    <li>
+                        <b>Závody:</b> {shows}
+                    </li>
+                )
+            }
+        </ul>
+
+        {gallery.length > 0 && <Gallery images={gallery} alt={name} />}
+    </article>
+
+    <style>
+        .puppy-detail {
+            margin: auto;
+            padding: 2rem 1rem;
+            color: rgb(var(--gray-dark));
+        }
+        .puppy-detail h1 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .puppy-detail ul {
+            margin-top: 1.5rem;
+            padding-left: 1rem;
+            list-style: none;
+        }
+        .puppy-detail ul li {
+            margin: 0.5rem 0;
+        }
+        .back-link {
+            display: inline-block;
+            margin: 2rem 0 1rem;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</Layout>

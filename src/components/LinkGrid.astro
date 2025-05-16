@@ -1,0 +1,77 @@
+---
+/**
+ * items: pole objektů { title, href, imageUrl }
+ * Ukázka:
+ * [
+ *   { title: 'Vrh A', href: '/vrhA', imageUrl: '/images/vrhA-thumb.jpg' },
+ *   …
+ * ]
+ */
+interface Item {
+    title: string;
+    href: string;
+    imageUrl: string;
+}
+const { items } = Astro.props as { items: Item[] };
+---
+
+<ul class="link-grid">
+    {
+        items.map((item) => (
+            <li class="link-grid__item">
+                <a href={item.href}>
+                    <div class="link-grid__image">
+                        <img src={item.imageUrl} alt={item.title} />
+                    </div>
+                    <span class="link-grid__title">{item.title}</span>
+                </a>
+            </li>
+        ))
+    }
+</ul>
+
+<style>
+    .link-grid {
+        display: grid;
+        gap: 1.5rem;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        list-style: none;
+        padding: 0;
+        margin: 2rem 0;
+    }
+    .link-grid__item a {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: box-shadow 0.2s ease;
+    }
+    .link-grid__item a:hover {
+        box-shadow: var(--box-shadow);
+    }
+    /* v .link-grid__image místo pevné výšky */
+    .link-grid__image {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 16 / 9; /* poměr šířky:k výšce */
+        overflow: hidden;
+    }
+    .link-grid__image img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center; /* střed obrázku */
+    }
+
+    .link-grid__title {
+        display: block;
+        padding: 0.75rem;
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.125rem;
+        background: var(--gray-light);
+    }
+</style>

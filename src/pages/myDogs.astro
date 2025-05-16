@@ -1,0 +1,127 @@
+---
+import Layout from "../layouts/Layout.astro";
+import DogCard from "../components/DogCard.astro";
+
+const dogs = [
+    {
+        name: "Omega z Otvovické skály (Meggie)",
+        imageUrl: "/images/dogs/meggie/meggie_smecka.jpg",
+        details: [
+            { label: "Plemeno:", value: "Sheltie" },
+            { label: "Datum narození:", value: "22.11.2017" },
+            { label: "Matka:", value: "Fidorka z Otvovické skály" },
+            { label: "Otec:", value: "Dark z Otvovické skály" },
+            { label: "Srst:", value: "dlouhá, zlatá" },
+            { label: "Zkoušky:", value: "canisterapie" },
+            { label: "Pasení:", value: "NHAT, HWT TS" },
+            { label: "", value: "Omega není chovná, není standardní" },
+        ],
+        description: [
+            "Meggie je můj první pes, který už je opravdu můj. Předtím jsem cvičila a starala se o dlouhosrstou kolii jménem Boney, která patří mojí tchýni. Je to krásná shelte. Má ráda drbání, agility a pasení ovcí, ale jen dokud běhají. Ráda nahání vše co běhá a rychle se hýbe.",
+            "Spolu se tedy věnujeme agility spíše na úrovni pro zábavu a rekreačně, i když jsem oběma holkám už pořídila výkonnostní průkaz, ještě jsme na žádných závodech nebyli. Pasení pod trenérem dělám mnohem déle než agility, začala jsem, když Meggie byly čtyři měsíce, nebyla moc sebevědomá, stále asi nemá takový tlak na ovce, jak bych si přála, ale moc nás to spolu baví. Povedlo se nám splnit první zkoušku NHAT vlohy a zároveň HWT TS (TS jako tradiční plemena, zkoušky se liší u borderek, tzv. kontaktních a u tradičních plemen) Připravujeme se na první úroveň zkoušek IHT1 TS, kterou nám právě překazila tato hrozná situace, teď opět tolik netrénujeme, i tak to máme jen pro zábavu. Meggie nemůže být chovná, protože není standardní (uši by měla mít poloklopené, jí však trčí vzhůru jako anténky :D)",
+            "Nesmím však zapomenout na Meggie hlavní aktivitu a tou je canisterapie, společně jsme si splnily zkoušky a ona je úžasná, citlivá a mazlivá, raději tedy pracuje se seniory než s malými dětmi. Ale klidně se vám nenápadně vcucne do auta, až tak moc ráda jezdí autem a miluje terapii.",
+            "Meggie je skvělý model, hravá a uštěkaná. Její nejoblíbenější hračka je plyšový ježeček nebo huňatý ocas jiného psa.",
+        ],
+    },
+    {
+        name: "Alrischa Mudi Star from the Czech Land (Ariška)",
+        imageUrl: "/images/dogs/ariska/arisa_smecka.jpg",
+        details: [
+            { label: "Plemeno:", value: "Mudi" },
+            { label: "Datum narození:", value: "19.05.2018" },
+            { label: "Matka:", value: "Mecseki Bundás Lexie" },
+            { label: "Otec:", value: "Angyali Álom Aszu" },
+            { label: "Srst:", value: "kadeřavá, blue merle" },
+            {
+                label: "Zdraví:",
+                value: "DKK B/B, DLK 0/0, spondylóza negativní, patelly 0/0, DOV prosté",
+            },
+            { label: "Výška:", value: "42 cm" },
+            { label: "Zkouška:", value: "NHAT" },
+            {
+                label: "Výstavy:",
+                value: "Český junior šampion,1 R.CAC, 2x CAC, 2x CACIB, 1x BOB",
+            },
+            { label: "", value: "Chovná fena" },
+        ],
+        description: [
+            "Ariška byla trochu nečekaná. Jednou jsem se koukala na různé psí skupiny na faceboku a zaujalo mě plemeno mudi, původně jsem chtěla jen nějaké informace a do budoucna jsem si dokázala představit mít tohle plemeno po svém boku. Čirou náhodou jsme objevili inzerát na malou skoro tříměsíční blue merle mudi fenku a moc dlouho jsme se nerozhodovali a hned chovatelce napsali. Získala jsem ji jako malé štěňátko po jiné majitelce, která ji vrátila. Ariška ke mně hodně přilnula. Hlídá mě a leží se mnou, když mi není dobře a sdílí se mnou radost, když jsem šťastná. Mudi je velmi učenlivé a pracovité plemeno, které má neuvěřitelný drive, sdílí s vámi radost z dobře odvedené práce, je ostražité, ne",
+            "Ariška opravdu působí jako hyena. Ariška je hrozně inteligentní a šikovná, nad vším co pro ni připravím hrozně přemýšlí a dokáže toho spoustu vymyslet sama. S Ariškou jsem začala pasení, hned co jsem si ji přivezla, nejdříve si prošla canisteraupetickým workshopem, kde si zkoušela polohování, kontakt s lidmi, se psy atd.. a hned poté s námi jela na víkend pasení, takže Ariška viděla ovce už ve třech měsících a od malička měla silný tlak, vůbec se jich nebála a na tréninky se hodně těší. Ale jakákoli aktivita bude Arišku bavit a dá do toho všechno. Ariška je tedy chovná fena, díky ní jsem si založila chovatelskou stanici se stejným názvem jako je tento blog Foxhyn, padla různá jména některá česká s místem našeho bydliště nebo společná s hyenou či rysem, jednou mě napadlo zkrátka Foxhyn, a začalo vznikat logo, stránka, předelával se fb a instagram a čekala jsem na schválení chovatelské stanice a tento měsíc je to tu oficiálně jsme tedy Foxhyn.",
+            "S Ariškou jsem si prozatím splnila jen vlohy NHAT, připravovali jsme se na HWT TS a už jsem nás i přihlásila, ale zkoušky se několikrát odložily, tudíž nám to nevyšlo a připravujeme se dál, i když teď nám zase zavřou tréninky pasení i agility, na jak dlouho to nikdo netuší.",
+            "Také se věnujeme spolu canisterapii, má raději práci se seniory než s dětmi, ale zase obě feny s nimi dokáži cvičit a děti úplně milují, když si nandají rukavice nebo čepici a ona jim ji něžně sundá, v tomhle období to však bylo komplikované a moc jsme nikde nebyli.",
+        ],
+    },
+    {
+        name: "Aurelius Foxhyn (Auri)",
+        imageUrl: "/images/dogs/aurelius/aurelius_smecka.jpg",
+        details: [
+            { label: "Plemeno:", value: "Mudi" },
+            { label: "Datum narození:", value: "18.07.2022" },
+            {
+                label: "Matka:",
+                value: "Alrischa Mudi Star from the Czech Land",
+            },
+            { label: "Otec:", value: "Szélvigyázó… “Kerka”" },
+            { label: "Srst:", value: "krátká, plavá" },
+            { label: "Zkouška:", value: "—" },
+            { label: "Pasení:", value: "—" },
+            { label: "", value: "Štěně, potenciálně chovný" },
+        ],
+        description: [
+            "Člověk míní, život mění.",
+            "Psa, ne nechci psa, nechám si fenu, to je jasné, vždyť je to můj sen. No a kterou fenu si necháš, no to ještě nevím. A to by stačilo k té feně, můj přítel měl sen, mít svého vlastního psa, ale měla to být border collie, samozřejmě jsem měla vybraného chovatele, ale nechtěl to uspěchat. Pak jsem si zase nebyla jistá, jeslti si teda nenechám já tu fenu po Arišce. No a on nás tenhle malý hajzlík učaroval 😆 přivítejte trdy v naší rodině, v naší velké smečce Aureliuse, který určitě spolu s mámou celou smečku povedou.",
+            "Nepřestává mě udivovat, je s ním hrozná legrace, když sedím, tak mi skáče skoro na hlavu. Z koupelny mi už přinesl z košíku tamponky na čištění obličeje, je to kadeřník, rád mi dělá účesy. Opravdu jsem ho viděla spát v té poličce, nestihla jsem to nafotit foťákem, tak alespoň mobilem 😆.",
+            "Je hrozně kontaktní a od malička nechce být v ohrádce, chce všechno zkoumat a pořád být s vámi. Hrozně rád dává pusinky, někdy to bolí 😆 A co mají v plánu, to se může také samozřejmě změnit, ale nejspíš pasení, zkusit si obrany a obedience, možná si zkusit agility a rozhodně dog frisbee. Tak budeme mít kluka, no kdo by to čekal. První se narodil, dal mámě zabrat, víte, jak je to s těmi prvními, často se nedostanou ven včas.. První koukal, první se postavil na nohy. Aurelius je náš 🖤",
+            "Možná to ještě všichni nevíte, ale necháváme si kluka Aureliuse. Vůbec by mě nenapadlo, že si necháme zrovna chlapečka, ale učaroval nás, a tak jsme naši smečku doplnili tímto úžasnákem.",
+            "Je to úplný hopík, je šílené, kam všude vyskočí, skáče do vzduchu na místě z radosti, myslím, že na frisbee bude super, ale uvidíme, rádi bychom také zkusili ovečky, možná agility. Máme za sebou první seznámení se štěňátky, byl s námi už dvakrát na tréninku treibbalu prohlédnout si nové místo, nové pachy. Aurelius tedy zůstává s námi, těším se na nové dobrodružství. Už ted třeba provozuje hod rukavicí nebo čímkoli několik metrů do vzduchu a stejně jako máma má rád rozhled. Tak už s ní kouká z okna.",
+        ],
+    },
+];
+---
+
+<Layout>
+    <section class="my-dogs">
+        <h1>Moje smečka</h1>
+        <p class="intro">
+            Toto je má smečka, má rodina. Na mých fotkách budou asi nejčastěji…
+        </p>
+        <div class="stack">
+            {
+                dogs.map((dog) => (
+                    <DogCard
+                        name={dog.name}
+                        imageUrl={dog.imageUrl}
+                        details={dog.details}
+                        description={dog.description}
+                    />
+                ))
+            }
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .my-dogs {
+        max-width: 960px;
+        margin: auto;
+        padding: 3rem 1rem;
+    }
+    .my-dogs h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: rgb(var(--black));
+    }
+    .my-dogs .intro {
+        text-align: center;
+        color: rgb(var(--gray-dark));
+        margin-bottom: 2rem;
+    }
+</style>
+
+<style>
+    .my-dogs .stack {
+        display: flex;
+        flex-direction: column;
+    }
+</style>

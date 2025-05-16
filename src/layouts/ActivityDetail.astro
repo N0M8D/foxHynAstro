@@ -1,0 +1,23 @@
+---
+// src/layouts/ActivityDetail.astro
+import type { CollectionEntry } from "astro:content";
+import Gallery from "../components/Gallery.astro";
+import Layout from "./Layout.astro";
+
+type Props = CollectionEntry<"activities">["data"];
+const { title, description, gallery } = Astro.props as Props;
+---
+
+<Layout title={title} description={description}>
+    <article class="activity-detail">
+        <a href="/activities" class="back-link">← Zpět na přehled aktivit</a>
+        <h1>{title}</h1>
+        {description && <p class="intro">{description}</p>}
+        <slot />
+        {
+            gallery && gallery.length > 0 && (
+                <Gallery images={gallery} alt={title} />
+            )
+        }
+    </article>
+</Layout>

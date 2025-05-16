@@ -1,0 +1,153 @@
+---
+import Layout from "../../../layouts/Layout.astro";
+import LinkGrid from "../../../components/LinkGrid.astro";
+
+interface Item {
+    title: string;
+    href: string;
+    imageUrl: string;
+}
+
+const items: Item[] = [
+    {
+        title: "Aurelius",
+        href: "/chovatelskaStanice/vrhA/aurelius",
+        imageUrl: "/images/chovatelska_stanice/vrhA/aurik/aurelius.jpg",
+    },
+    {
+        title: "Aspasia",
+        href: "/chovatelskaStanice/vrhA/nuppu",
+        imageUrl: "/images/chovatelska_stanice/vrhA/nuppu/nuppu.JPG",
+    },
+    {
+        title: "Alethea",
+        href: "/chovatelskaStanice/vrhA/ali",
+        imageUrl: "/images/chovatelska_stanice/vrhA/ali/ali.jpg",
+    },
+    {
+        title: "Astoria",
+        href: "/chovatelskaStanice/vrhA/haidi",
+        imageUrl: "/images/chovatelska_stanice/vrhA/haidi/haidi9.JPG",
+    },
+    {
+        title: "Piri",
+        href: "/chovatelskaStanice/vrhA/piri",
+        imageUrl: "/images/chovatelska_stanice/vrhA/piri/piri.jpg",
+    },
+    {
+        title: "Athanasios",
+        href: "/chovatelskaStanice/vrhA/atas",
+        imageUrl: "/images/chovatelska_stanice/vrhA/atas/atas.jpg",
+    },
+];
+---
+
+<Layout>
+    <section class="vrh-a">
+        <h1>Vrh A</h1>
+        <LinkGrid items={items} />
+
+        <div class="vrh-a__text">
+            <h5>
+                ✨ Třikrát do Maďarska – příběh plný strastí, radostí a jednoho
+                výjimečného psa ✨
+            </h5>
+            <p>
+                Někdy si osud hraje, někdy nás zkouší, ale nakonec nás dovede
+                přesně tam, kam máme jít. A mě dovedl do Maďarska – ne jednou,
+                ne dvakrát, ale třikrát! 🇭🇺🐕
+            </p>
+
+            <h5>🐾 Jak to všechno začalo?</h5>
+            <p>
+                Plánovala jsem to dlouho, ale nikdy nebyl ten správný čas. A
+                když se naskytlo léto bez tréninků, věděla jsem, že teď je ta
+                chvíle! A pak jsem ho našla – Kerku. Krásného světlého mudiho s
+                ocáskem, se skvělým rodokmenem, výborným zdravím a hlavně s
+                povahou, kterou jsem hledala.
+            </p>
+
+            <h5>🐾 První cesta do Maďarska – plná naděje a zklamání</h5>
+            <p>
+                Po spoustě plánování, telefonátů, žádostí a nervů jsme konečně
+                vyrazili. Setkání Arišky a Kerky bylo nádherné, ale krytí se
+                nezdařilo. Návrat domů byl těžký – ztráta fotek, poškoděný
+                telefon, bolavá záda… Přesto jsem věděla, že to nevzdám.
+            </p>
+
+            <h5>🐾 Druhá cesta – odhodlání a úspěch!</h5>
+            <p>
+                Ariška začala hárat v listopadu a já se rozhodla to neodkládat.
+                Po několika hodinách jsme měli úspěch – přirozené krytí proběhlo
+                skvěle a já věděla, že tentokrát máme šanci!
+            </p>
+
+            <h5>🐾 Třetí cesta – poslední krok k cíli</h5>
+            <p>
+                Když jsme zase dorazili, Kerka a Ariška se okamžitě poznali a
+                tentokrát vše vyšlo dokonale.
+            </p>
+
+            <h5>🔹 Proč právě Kerka?</h5>
+            <p>
+                Skvělý rodokmen, výborný zdravotní stav, dokonalá povaha –
+                přátelský, oddaný, inteligentní a vyrovnaný. Matka i prarodiče
+                běhají v nejvyšší třídě agility, otec má vlohy pro pasení. Byl
+                to dlouhý boj, ale stálo to za to!
+            </p>
+
+            <h5>✨ FoxHyn: Od cesty k novému začátku! ✨</h5>
+            <p>
+                🐾 19. 05 2022 – Vyrazili jsme na krytí a vše proběhlo podle
+                plánu.
+            </p>
+            <p>🐾 21. 05 2022 – Překrývali jsme pro jistotu a opět úspěšně.</p>
+            <p>🐾 Dnes – Máme potvrzenou březost! 🐶💛</p>
+        </div>
+        <!-- Certifikát – menší náhled -->
+        <div class="plakat">
+            <img
+                src="/images/chovatelska_stanice/vrhA/plakat_kerka.png"
+                alt="Plakát vrhu"
+            />
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .vrh-a {
+        max-width: 960px;
+        margin: auto;
+        padding: 3rem 1rem;
+    }
+    .vrh-a h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: rgb(var(--black));
+    }
+    .vrh-a__text {
+        margin-top: 3rem;
+        line-height: 1.6;
+    }
+    .vrh-a__text h5 {
+        margin-top: 2rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+    .vrh-a__text p {
+        margin-top: 0.75rem;
+    }
+    /* certifikát */
+    .vrh-a .plakat {
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .vrh-a .plakat img {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: var(--box-shadow);
+    }
+</style>
