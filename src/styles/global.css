@@ -1,31 +1,13 @@
-/*
-  The CSS in this style tag is based off of Bear Blog's default CSS.
-  https://github.com/HermanMartinus/bearblog/blob/297026a877bc2ab2b3bdfbd6b9f7961c350917dd/templates/styles/blog/default.css
-  License MIT: https://github.com/HermanMartinus/bearblog/blob/master/LICENSE.md
- */
-
 :root {
-	/* --- předefinované barvy --- */
 	--accent: #f69236;
-	/* sytá oranžová */
 	--accent-dark: #9e5100;
-	/* tmavá cihlová */
 	--accent-pink: #fbc8e4;
-	/* jemná růžová */
-
 	--black: 51, 40, 36;
-	/* tmavohnědá pro nadpisy */
 	--gray: 153, 117, 85;
-	/* střední hnědá */
 	--gray-light: 255, 245, 238;
-	/* světlá písková */
 	--gray-dark: 102, 85, 73;
-	/* tmavší hnědá pro text */
-
 	--gray-gradient: rgba(var(--gray-light), 50%), #fff;
-	--box-shadow:
-		0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%),
-		0 16px 32px rgba(var(--gray), 33%);
+	--box-shadow: 0 2px 6px rgba(var(--gray), 25%), 0 8px 24px rgba(var(--gray), 33%), 0 16px 32px rgba(var(--gray), 33%);
 }
 
 @font-face {
@@ -44,6 +26,11 @@
 	font-display: swap;
 }
 
+html,
+body {
+	overflow-x: hidden;
+}
+
 body {
 	font-family: 'Atkinson', sans-serif;
 	margin: 0;
@@ -59,10 +46,11 @@ body {
 }
 
 main {
-	width: 1024px;
-	max-width: calc(100% - 2em);
+	width: 100%;
+	max-width: 1024px;
 	margin: auto;
 	padding: 3em 6em;
+	box-sizing: border-box;
 }
 
 h1,
@@ -103,6 +91,7 @@ b {
 
 a {
 	color: var(--accent);
+	text-decoration: none;
 }
 
 a:hover {
@@ -117,12 +106,9 @@ p {
 	margin-bottom: 2em;
 }
 
-textarea {
-	width: 100%;
-	font-size: 16px;
-}
-
+textarea,
 input {
+	width: 100%;
 	font-size: 16px;
 }
 
@@ -153,8 +139,8 @@ pre>code {
 
 blockquote {
 	border-left: 4px solid var(--accent);
-	padding: 0 0 0 20px;
-	margin: 0px;
+	padding-left: 20px;
+	margin: 0;
 	font-size: 1.333em;
 }
 
@@ -173,6 +159,7 @@ hr {
 	}
 }
 
+/* --- Pro skryté elementy --- */
 .sr-only {
 	border: 0;
 	padding: 0;
@@ -181,19 +168,18 @@ hr {
 	height: 1px;
 	width: 1px;
 	overflow: hidden;
-	clip: rect(1px 1px 1px 1px);
 	clip: rect(1px, 1px, 1px, 1px);
 	clip-path: inset(50%);
 	white-space: nowrap;
 }
 
-/* --- Rozšíření: Sociální ikony --- */
+/* --- Sociální ikony --- */
 .social-icons {
 	display: flex;
 	gap: 1rem;
 	list-style: none;
 	padding: 0;
-	margin: 1.5em 0;
+	margin: 0;
 }
 
 .social-icons a {
@@ -211,4 +197,136 @@ hr {
 	width: 1.5em;
 	height: 1.5em;
 	fill: currentColor;
+}
+
+/* === HLAVIČKA A MENU === */
+header {
+	padding: 0 1em;
+	background: white;
+	box-shadow: 0 2px 8px rgba(var(--black), 5%);
+}
+
+nav {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	max-width: 1024px;
+	margin: 0 auto;
+	padding: 1em 0;
+	box-sizing: border-box;
+	width: 100%;
+}
+
+.top-bar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	gap: 1rem;
+}
+
+.site-title a {
+	font-size: 1.25em;
+	font-weight: bold;
+	text-decoration: none;
+	color: rgb(var(--black));
+}
+
+/* Social icons varianty */
+.social-wrapper {
+	display: none;
+}
+
+.social-wrapper.social-desktop {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	margin-top: 0.5rem;
+}
+
+.social-wrapper.social-mobile {
+	display: none;
+}
+
+.internal-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+	margin-top: 1rem;
+}
+
+nav a {
+	color: var(--black);
+	text-decoration: none;
+	border-bottom: 4px solid transparent;
+}
+
+nav a.active {
+	border-bottom-color: var(--accent);
+}
+
+.menu-toggle {
+	display: none;
+	background: none;
+	border: none;
+	font-size: 2rem;
+	cursor: pointer;
+	color: rgb(var(--black));
+	margin-left: auto;
+}
+
+/* === Responsivní menu === */
+@media (max-width: 720px) {
+	.top-bar {
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+
+	.menu-toggle {
+		display: block;
+		order: 3;
+	}
+
+	/* Social ikony: mobilní verze */
+	.social-wrapper.social-desktop {
+		display: none;
+	}
+
+	.social-wrapper.social-mobile {
+		display: flex;
+		justify-content: center;
+		width: 100%;
+		margin-top: 1rem;
+	}
+
+	.internal-links {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		text-align: left;
+		overflow: hidden;
+		max-height: 0;
+		opacity: 0;
+		transform: translateY(-10px);
+		transition: max-height 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
+	}
+
+	body.menu-open .internal-links {
+		max-height: 1000px;
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	.menu-toggle .icon-close {
+		display: none;
+	}
+
+	body.menu-open .menu-toggle .icon-open {
+		display: none;
+	}
+
+	body.menu-open .menu-toggle .icon-close {
+		display: inline;
+	}
 }

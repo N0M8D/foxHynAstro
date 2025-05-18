@@ -35,21 +35,20 @@ const { name, imageUrl, altText, details, description } = Astro.props as Props;
 <style>
     .dog-card {
         display: grid;
-        /* vždy dvě kolony: fotka vlevo, text vpravo */
-        grid-template-columns: 450px 1fr; /* fotka je nyní širší */
+        grid-template-columns: 450px 1fr;
         background: rgb(var(--gray-light));
         border-radius: 8px;
         box-shadow: var(--box-shadow);
-        /* necháváme content plně vidět a zalomívat */
         overflow: visible;
         margin-bottom: 2rem;
     }
 
     .dog-card__image {
-        overflow: hidden; /* pro zachování oříznutí fotky */
+        overflow: hidden;
         border-top-left-radius: 8px;
         border-bottom-left-radius: 8px;
     }
+
     .dog-card__image img {
         width: 100%;
         height: 100%;
@@ -74,13 +73,31 @@ const { name, imageUrl, altText, details, description } = Astro.props as Props;
         margin: 0 0 1rem;
         padding: 0;
     }
+
     .dog-card__details li {
         margin-bottom: 0.5rem;
     }
 
     .dog-card__content p {
-        /* zalamovat a mít normální mezery */
         margin: 0.75rem 0;
         line-height: 1.5;
+    }
+
+    @media (max-width: 768px) {
+        .dog-card {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto;
+            border-radius: 8px;
+        }
+
+        .dog-card__image {
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            border-bottom-left-radius: 0;
+        }
+
+        .dog-card__content {
+            padding: 1rem;
+        }
     }
 </style>

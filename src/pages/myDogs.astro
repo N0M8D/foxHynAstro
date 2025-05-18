@@ -106,22 +106,33 @@ const dogs = [
         margin: auto;
         padding: 3rem 1rem;
     }
+
     .my-dogs h1 {
         text-align: center;
         font-size: 2.5rem;
         margin-bottom: 1rem;
         color: rgb(var(--black));
     }
+
     .my-dogs .intro {
         text-align: center;
         color: rgb(var(--gray-dark));
         margin-bottom: 2rem;
     }
-</style>
 
-<style>
     .my-dogs .stack {
         display: flex;
         flex-direction: column;
+        gap: 2rem;
+    }
+
+    @media (max-width: 768px) {
+        .my-dogs {
+            padding: 2rem 1rem;
+        }
+
+        .my-dogs .stack {
+            gap: 1.5rem;
+        }
     }
 </style>
