@@ -1,7 +1,7 @@
 ---
 import HeaderLink from "./HeaderLink.astro";
 import SocialLinks from "./SocialLinks.astro";
-import MenuToggle from "./MenuToggle.jsx"; // 💡 importujeme React komponentu
+import MenuToggle from "./MenuToggle.astro"; // 💡 změna z .jsx na .astro
 import { SITE_TITLE } from "../consts";
 ---
 
@@ -36,10 +36,10 @@ import { SITE_TITLE } from "../consts";
 				>Chovatelská stanice</HeaderLink
 			>
 			<HeaderLink href="/activities">Aktivity</HeaderLink>
-			<HeaderLink href="/about">xxx</HeaderLink>
+			<!-- <HeaderLink href="/about">xxx</HeaderLink> -->
 		</div>
 	</nav>
 
-	<MenuToggle client:load />
-	<!-- 💥 přidání interaktivity -->
+	<MenuToggle />
+	<!-- 💥 už bez client:load - běží jako vanilla JS -->
 </header>

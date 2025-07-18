@@ -1,7 +1,19 @@
 :root {
-	--accent: #f69236;
+	/*style guide colors*/
+
+	--accent-green: #174A25;
+	--accent-brown: #9E5100;
+
+	--brand-color: #FAB400;
+	--brand-color-dark: #c99000;
+	--background-color: #FFE4C7;
+
+
+	--white: var(--white);
+
+	--accent: var(--brand-color);
 	--accent-dark: #9e5100;
-	--accent-pink: #fbc8e4;
+	--accent-pink: var(--background-color);
 	--black: 51, 40, 36;
 	--gray: 153, 117, 85;
 	--gray-light: 255, 245, 238;
@@ -11,17 +23,33 @@
 }
 
 @font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-regular.woff') format('woff');
+	font-family: 'Raleway';
+	src: url('/fonts/raleway-regular.woff2') format('woff2');
 	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
 
 @font-face {
-	font-family: 'Atkinson';
-	src: url('/fonts/atkinson-bold.woff') format('woff');
+	font-family: 'Raleway';
+	src: url('/fonts/raleway-bold.woff2') format('woff2');
 	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Raleway';
+	src: url('/fonts/raleway-extralightitalic.woff2') format('woff2');
+	font-weight: 200;
+	font-style: italic;
+	font-display: swap;
+}
+
+@font-face {
+	font-family: 'Yellowtail';
+	src: url('/fonts/yellowtail-regular.woff2') format('woff2');
+	font-weight: 400;
 	font-style: normal;
 	font-display: swap;
 }
@@ -32,7 +60,7 @@ body {
 }
 
 body {
-	font-family: 'Atkinson', sans-serif;
+	font-family: 'Raleway', sans-serif;
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -90,7 +118,7 @@ b {
 }
 
 a {
-	color: var(--accent);
+	color: var(--brand-color-dark);
 	text-decoration: none;
 }
 
@@ -227,6 +255,7 @@ nav {
 
 .site-title a {
 	font-size: 1.25em;
+	font-family: 'Yellowtail';
 	font-weight: bold;
 	text-decoration: none;
 	color: rgb(var(--black));
