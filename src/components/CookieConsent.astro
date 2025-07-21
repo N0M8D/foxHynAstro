@@ -1,0 +1,203 @@
+---
+// Cookie Consent Banner Component
+---
+
+<div id="cookie-consent" class="cookie-consent" style="display: none;">
+    <div class="cookie-content">
+        <p>
+            Tento web používá cookies pro analýzu návštěvnosti pomocí služby
+            Matomo. Cookies nám pomáhají zlepšovat naše služby a obsah webu.
+        </p>
+        <div class="cookie-buttons">
+            <button id="accept-cookies" class="btn-accept">Přijmout</button>
+            <button id="reject-cookies" class="btn-reject">Odmítnout</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Declare Matomo _paq interface
+    declare global {
+        interface Window {
+            _paq: any[];
+        }
+    }
+
+    // Check if user has already made a choice
+    function getCookieConsent(): string | null {
+        return localStorage.getItem("cookieConsent");
+    }
+
+    // Set cookie consent
+    function setCookieConsent(consent: string): void {
+        localStorage.setItem("cookieConsent", consent);
+    }
+
+    // Show or hide cookie banner
+    function showCookieBanner(): void {
+        const consent = getCookieConsent();
+        if (!consent) {
+            const banner = document.getElementById("cookie-consent");
+            if (banner) {
+                banner.style.display = "block";
+            }
+        }
+    }
+
+    // Hide cookie banner
+    function hideCookieBanner(): void {
+        const banner = document.getElementById("cookie-consent");
+        if (banner) {
+            banner.style.display = "none";
+        }
+    }
+
+    // Initialize Matomo tracking
+    function initMatomo(): void {
+        if (typeof window._paq !== "undefined") {
+            window._paq.push(["trackPageView"]);
+            window._paq.push(["enableLinkTracking"]);
+
+            // Load Matomo script if not already loaded
+            if (!document.querySelector('script[src*="matomo.js"]')) {
+                (function () {
+                    var u = "//matomo.czechnomad.cz/";
+                    window._paq.push(["setTrackerUrl", u + "matomo.php"]);
+                    window._paq.push(["setSiteId", "1"]);
+                    var d = document,
+                        g = d.createElement("script"),
+                        s = d.getElementsByTagName("script")[0];
+                    g.async = true;
+                    g.src = u + "matomo.js";
+                    if (s && s.parentNode) {
+                        s.parentNode.insertBefore(g, s);
+                    }
+                })();
+            }
+        }
+    }
+
+    // Disable Matomo tracking
+    function disableMatomo(): void {
+        if (typeof window._paq !== "undefined") {
+            window._paq.push(["optUserOut"]);
+        }
+    }
+
+    // Handle accept button
+    document.addEventListener("DOMContentLoaded", function () {
+        const acceptBtn = document.getElementById("accept-cookies");
+        const rejectBtn = document.getElementById("reject-cookies");
+
+        if (acceptBtn) {
+            acceptBtn.addEventListener("click", function () {
+                setCookieConsent("accepted");
+                hideCookieBanner();
+                initMatomo();
+            });
+        }
+
+        if (rejectBtn) {
+            rejectBtn.addEventListener("click", function () {
+                setCookieConsent("rejected");
+                hideCookieBanner();
+                disableMatomo();
+            });
+        }
+
+        // Check if we should show the banner
+        const consent = getCookieConsent();
+        if (consent === "accepted") {
+            initMatomo();
+        } else if (!consent) {
+            showCookieBanner();
+        }
+    });
+</script>
+
+<style>
+    .cookie-consent {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        color: rgb(var(--gray-dark));
+        padding: 1rem;
+        box-shadow: var(--box-shadow);
+        z-index: 1000;
+        border-top: 3px solid var(--brand-color);
+        font-family: "Raleway", sans-serif;
+    }
+
+    .cookie-content {
+        max-width: 1024px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .cookie-content p {
+        margin: 0;
+        flex: 1;
+        font-size: 0.9rem;
+        line-height: 1.4;
+        color: rgb(var(--gray-dark));
+    }
+
+    .cookie-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-shrink: 0;
+    }
+
+    .cookie-buttons button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        font-family: "Raleway", sans-serif;
+    }
+
+    .btn-accept {
+        background-color: var(--brand-color);
+        color: rgb(var(--black));
+    }
+
+    .btn-accept:hover {
+        background-color: var(--brand-color-dark);
+        color: white;
+    }
+
+    .btn-reject {
+        background-color: rgb(var(--gray));
+        color: white;
+    }
+
+    .btn-reject:hover {
+        background-color: rgb(var(--gray-dark));
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 720px) {
+        .cookie-content {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .cookie-buttons {
+            justify-content: center;
+            width: 100%;
+        }
+
+        .cookie-buttons button {
+            flex: 1;
+            max-width: 120px;
+        }
+    }
+</style>

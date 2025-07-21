@@ -13,6 +13,9 @@ const today = new Date();
 		</a>
 		& Pavla Krausová
 	</p>
+	<p class="privacy-links">
+		<a href="/privacy">Nastavení cookies a soukromí</a>
+	</p>
 	<SocialLinks />
 </footer>
 
@@ -22,5 +25,21 @@ const today = new Date();
 		background: linear-gradient(var(--gray-gradient)) no-repeat;
 		color: rgb(var(--gray));
 		text-align: center;
+	}
+
+	.privacy-links {
+		margin-top: 1rem;
+		font-size: 0.9rem;
+	}
+
+	.privacy-links a {
+		color: rgb(var(--gray));
+		text-decoration: underline;
+		opacity: 0.8;
+		transition: opacity 0.2s ease;
+	}
+
+	.privacy-links a:hover {
+		opacity: 1;
 	}
 </style>

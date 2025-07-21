@@ -1,0 +1,222 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+    title="Nastavení cookies - FoxHyn"
+    description="Správa cookies a soukromí na webu FoxHyn"
+>
+    <div class="privacy-container">
+        <h1>Nastavení cookies</h1>
+
+        <section class="privacy-section">
+            <h2>O cookies</h2>
+            <p>
+                Tento web používá cookies pro analýzu návštěvnosti pomocí služby
+                Matomo. Cookies nám pomáhají porozumět tomu, jak návštěvníci
+                používají náš web, což nám umožňuje jej zlepšovat.
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Matomo Analytics</h2>
+            <p>
+                Používáme Matomo (dříve Piwik) pro anonymní sledování
+                návštěvnosti. Matomo je open-source analytický nástroj, který
+                respektuje soukromí uživatelů. Data jsou uložena na našem
+                serveru a nejsou sdílena s třetími stranami.
+            </p>
+            <p>
+                <strong>Aktuální stav:</strong>
+                <span id="consent-status">Kontroluji...</span>
+            </p>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Změnit nastavení</h2>
+            <div class="cookie-controls">
+                <button id="accept-analytics" class="btn btn-accept">
+                    Povolit analytické cookies
+                </button>
+                <button id="reject-analytics" class="btn btn-reject">
+                    Zakázat analytické cookies
+                </button>
+            </div>
+        </section>
+
+        <section class="privacy-section">
+            <h2>Vaše práva</h2>
+            <ul>
+                <li>Můžete kdykoliv změnit své nastavení cookies</li>
+                <li>Můžete požádat o výmaz svých dat</li>
+                <li>Analytické cookies jsou zcela anonymní</li>
+                <li>IP adresy jsou anonymizovány</li>
+            </ul>
+        </section>
+    </div>
+</Layout>
+
+<script>
+    // Declare Matomo _paq interface
+    declare global {
+        interface Window {
+            _paq: any[];
+        }
+    }
+
+    // Update consent status display
+    function updateConsentStatus() {
+        const consent = localStorage.getItem("cookieConsent");
+        const statusElement = document.getElementById("consent-status");
+
+        if (statusElement) {
+            if (consent === "accepted") {
+                statusElement.textContent = "Analytické cookies jsou povoleny";
+                statusElement.className = "status-accepted";
+            } else if (consent === "rejected") {
+                statusElement.textContent = "Analytické cookies jsou zakázány";
+                statusElement.className = "status-rejected";
+            } else {
+                statusElement.textContent = "Nebyl vybrán žádný souhlas";
+                statusElement.className = "status-none";
+            }
+        }
+    }
+
+    // Handle button clicks
+    document.addEventListener("DOMContentLoaded", function () {
+        updateConsentStatus();
+
+        const acceptBtn = document.getElementById("accept-analytics");
+        const rejectBtn = document.getElementById("reject-analytics");
+
+        if (acceptBtn) {
+            acceptBtn.addEventListener("click", function () {
+                localStorage.setItem("cookieConsent", "accepted");
+                updateConsentStatus();
+
+                // Reload page to initialize Matomo if needed
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            });
+        }
+
+        if (rejectBtn) {
+            rejectBtn.addEventListener("click", function () {
+                localStorage.setItem("cookieConsent", "rejected");
+                updateConsentStatus();
+
+                // Opt out of Matomo if it's loaded
+                if (typeof window._paq !== "undefined") {
+                    window._paq.push(["optUserOut"]);
+                }
+            });
+        }
+    });
+</script>
+
+<style>
+    .privacy-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem 1rem;
+        line-height: 1.6;
+    }
+
+    .privacy-section {
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgb(var(--gray-light));
+    }
+
+    .privacy-section:last-child {
+        border-bottom: none;
+    }
+
+    .privacy-section h2 {
+        color: rgb(var(--black));
+        margin-bottom: 1rem;
+    }
+
+    .privacy-section p {
+        margin-bottom: 1rem;
+        color: rgb(var(--gray-dark));
+    }
+
+    .privacy-section ul {
+        color: rgb(var(--gray-dark));
+        padding-left: 1.5rem;
+    }
+
+    .privacy-section li {
+        margin-bottom: 0.5rem;
+    }
+
+    .cookie-controls {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 0.75rem 1.5rem;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+        font-family: "Raleway", sans-serif;
+    }
+
+    .btn-accept {
+        background-color: var(--brand-color);
+        color: rgb(var(--black));
+    }
+
+    .btn-accept:hover {
+        background-color: var(--brand-color-dark);
+        color: white;
+    }
+
+    .btn-reject {
+        background-color: rgb(var(--gray));
+        color: white;
+    }
+
+    .btn-reject:hover {
+        background-color: rgb(var(--gray-dark));
+    }
+
+    #consent-status {
+        font-weight: 600;
+    }
+
+    .status-accepted {
+        color: var(--accent-green);
+    }
+
+    .status-rejected {
+        color: var(--accent-brown);
+    }
+
+    .status-none {
+        color: var(--brand-color-dark);
+    }
+
+    @media (max-width: 720px) {
+        .privacy-container {
+            padding: 1rem;
+        }
+
+        .cookie-controls {
+            flex-direction: column;
+        }
+
+        .btn {
+            text-align: center;
+        }
+    }
+</style>

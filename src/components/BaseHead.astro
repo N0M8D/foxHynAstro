@@ -68,20 +68,37 @@ const { title, description, image = "/blog-placeholder-1.jpg" } = Astro.props;
 
 <!-- Matomo -->
 <script>
+	// Initialize Matomo tracking array but don't track yet
 	var _paq = (window._paq = window._paq || []);
-	/* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-	_paq.push(["trackPageView"]);
-	_paq.push(["enableLinkTracking"]);
-	(function () {
-		var u = "//matomo.czechnomad.cz/";
-		_paq.push(["setTrackerUrl", u + "matomo.php"]);
-		_paq.push(["setSiteId", "1"]);
-		var d = document,
-			g = d.createElement("script"),
-			s = d.getElementsByTagName("script")[0];
-		g.async = true;
-		g.src = u + "matomo.js";
-		s.parentNode.insertBefore(g, s);
-	})();
+
+	// Check if user has consented to cookies
+	function initMatomoTracking() {
+		const consent = localStorage.getItem("cookieConsent");
+		if (consent === "accepted") {
+			// User has consented, initialize Matomo
+			_paq.push(["trackPageView"]);
+			_paq.push(["enableLinkTracking"]);
+
+			// Load Matomo script
+			(function () {
+				var u = "//matomo.czechnomad.cz/";
+				_paq.push(["setTrackerUrl", u + "matomo.php"]);
+				_paq.push(["setSiteId", "1"]);
+				var d = document,
+					g = d.createElement("script"),
+					s = d.getElementsByTagName("script")[0];
+				g.async = true;
+				g.src = u + "matomo.js";
+				if (s && s.parentNode) {
+					s.parentNode.insertBefore(g, s);
+				}
+			})();
+		}
+	}
+
+	// Check consent when page loads
+	document.addEventListener("DOMContentLoaded", function () {
+		initMatomoTracking();
+	});
 </script>
 <!-- End Matomo Code -->
