@@ -1,8 +1,5 @@
----
-// MenuToggle.astro - bez React hooks
----
-
-<script>
+<script is:inline>
+    // @ts-nocheck
     // Client-side JavaScript pro menu toggle
     function initMenuToggle() {
         let menuOpen = false;
@@ -11,29 +8,39 @@
         const menu = document.querySelector(".internal-links");
         const social = document.querySelector(".social-wrapper");
 
-        const focusableElements = "a[href], button";
-        let firstFocusable: HTMLElement | null = null;
-        let lastFocusable: HTMLElement | null = null;
+        // Pokud chybí základní prvky, nic nespouštěj
+        if (!toggle || !menu) return;
+        // Zamez duplicitnímu bindování po navigacích
+        if (toggle.dataset && toggle.dataset.bound === "true") return;
+        if (toggle.dataset) toggle.dataset.bound = "true";
 
-        const trapFocus = (e: KeyboardEvent) => {
+        const focusableElements = "a[href], button";
+        let firstFocusable = null;
+        let lastFocusable = null;
+
+        const trapFocus = (e) => {
             if (!menuOpen) return;
 
             const focusables = document.querySelectorAll(focusableElements);
-            firstFocusable = focusables[0] as HTMLElement;
-            lastFocusable = focusables[focusables.length - 1] as HTMLElement;
+            firstFocusable = focusables[0];
+            lastFocusable = focusables[focusables.length - 1];
 
             if (e.key === "Tab") {
                 if (e.shiftKey) {
                     // Shift + Tab
                     if (document.activeElement === firstFocusable) {
                         e.preventDefault();
-                        lastFocusable?.focus();
+                        lastFocusable &&
+                            typeof lastFocusable.focus === "function" &&
+                            lastFocusable.focus();
                     }
                 } else {
                     // Tab
                     if (document.activeElement === lastFocusable) {
                         e.preventDefault();
-                        firstFocusable?.focus();
+                        firstFocusable &&
+                            typeof firstFocusable.focus === "function" &&
+                            firstFocusable.focus();
                     }
                 }
             } else if (e.key === "Escape") {
@@ -57,19 +64,25 @@
             menuOpen ? closeMenu() : openMenu();
         };
 
-        if (toggle) {
-            toggle.addEventListener("click", toggleMenu);
-        }
+        toggle.addEventListener("click", toggleMenu);
 
         // Cleanup při navigaci
         document.addEventListener("astro:before-swap", () => {
-            toggle?.removeEventListener("click", toggleMenu);
+            // Zavři menu před výměnou obsahu stránky
+            if (menuOpen) closeMenu();
+            toggle.removeEventListener("click", toggleMenu);
             document.removeEventListener("keydown", trapFocus);
         });
     }
 
-    // Spustit po načtení DOM
-    document.addEventListener("DOMContentLoaded", initMenuToggle);
+    // Spustit po načtení DOM (nebo hned pokud je DOM už připraven)
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initMenuToggle, {
+            once: true,
+        });
+    } else {
+        initMenuToggle();
+    }
 
     // Spustit také při navigaci v Astro (view transitions)
     document.addEventListener("astro:page-load", initMenuToggle);
