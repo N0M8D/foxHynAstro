@@ -7,16 +7,17 @@ export async function getStaticPaths() {
 	const posts = await getCollection("blog");
 	return posts.flatMap((post) => {
 		const canonical = {
-			params: { slug: post.id },
+			params: { slug: post.data.slug },
 			props: { post, redirectTo: null as string | null },
 		};
 
-		const legacy = post.data?.strapiId
-			? {
-					params: { slug: String(post.data.strapiId) },
-					props: { post, redirectTo: `/blog/${post.id}/` },
-				}
-			: null;
+		const legacy =
+			post.id !== post.data.slug
+				? {
+						params: { slug: post.id },
+						props: { post, redirectTo: `/blog/${post.data.slug}/` },
+					}
+				: null;
 
 		return legacy ? [canonical, legacy] : [canonical];
 	});

@@ -59,15 +59,24 @@ const blog = defineCollection({
 
 		return data.map((item) => {
 			const attributes = item.attributes || item;
-			const strapiId = typeof item.id === 'number' ? item.id : Number(item.id);
+			const documentId =
+				typeof item.documentId === 'string'
+					? item.documentId
+					: typeof attributes.documentId === 'string'
+						? attributes.documentId
+						: typeof item.id === 'string'
+							? item.id
+							: String(item.id);
+
 			const explicitSlug = typeof attributes.slug === 'string' ? attributes.slug.trim() : '';
 			const titleForSlug = typeof attributes.title === 'string' ? attributes.title : '';
 			const generatedSlugBase = slugify(titleForSlug);
+			const docSuffix = documentId.slice(0, 8);
 			const generatedSlug = generatedSlugBase
-				? `${generatedSlugBase}-${strapiId}`
-				: String(strapiId);
+				? `${generatedSlugBase}-${docSuffix}`
+				: docSuffix;
 			const slug = explicitSlug || generatedSlug;
-			const id = slug;
+			const id = documentId;
 
 			const heroImage = extractStrapiMediaUrl(attributes.heroImage);
 			const gallery = extractStrapiMediaUrls(attributes.gallery);
@@ -75,7 +84,7 @@ const blog = defineCollection({
 			return {
 				id,
 				slug,
-				strapiId,
+				documentId,
 				title: attributes.title,
 				description: attributes.description,
 				pubDate: attributes.pubDate,
@@ -89,7 +98,7 @@ const blog = defineCollection({
 	},
 	schema: z.object({
 		slug: z.string(),
-		strapiId: z.coerce.number().int(),
+		documentId: z.string(),
 		title: z.string(),
 		description: z.string(),
 		pubDate: z.coerce.date(),
