@@ -12,7 +12,9 @@ function toAbsoluteUrl(url?: string) {
 
 function extractStrapiMediaUrl(media: any): string | undefined {
 	if (!media) return undefined;
+	if (Array.isArray(media)) return extractStrapiMediaUrl(media[0]);
 	if (typeof media === 'string') return toAbsoluteUrl(media);
+	if (Array.isArray(media?.data)) return extractStrapiMediaUrl(media.data[0]);
 
 	const url = media?.data?.attributes?.url ?? media?.attributes?.url ?? media?.url;
 	return toAbsoluteUrl(url);
