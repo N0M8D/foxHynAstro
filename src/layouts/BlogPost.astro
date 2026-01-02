@@ -2,10 +2,12 @@
 import type { CollectionEntry } from "astro:content";
 import FormattedDate from "../components/FormattedDate.astro";
 import Layout from "../layouts/Layout.astro";
+import Gallery from "../components/Gallery.astro";
 
 type Props = CollectionEntry<"blog">["data"];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, gallery } =
+	Astro.props;
 ---
 
 <Layout title={title} description={description}>
@@ -24,7 +26,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 					{
 						updatedDate && (
 							<div class="last-updated-on">
-								Last updated on{" "}
+								Naposledy aktualizováno{" "}
 								<FormattedDate date={updatedDate} />
 							</div>
 						)
@@ -34,6 +36,11 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				<hr />
 			</div>
 			<slot />
+			{
+				gallery && gallery.length > 0 && (
+					<Gallery images={gallery} alt={title} />
+				)
+			}
 		</div>
 	</article>
 
