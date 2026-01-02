@@ -4,6 +4,15 @@ import fetchApi from './lib/strapi';
 
 const STRAPI_BASE_URL = import.meta.env.STRAPI_URL || 'http://localhost:1337';
 
+function slugify(input: string) {
+	return input
+		.normalize('NFD')
+		.replace(/[\u0300-\u036f]/g, '')
+		.toLowerCase()
+		.replace(/[^a-z0-9]+/g, '-')
+		.replace(/(^-|-$)/g, '');
+}
+
 function toAbsoluteUrl(url?: string) {
 	if (!url) return undefined;
 	if (!url.startsWith('http')) return `${STRAPI_BASE_URL}${url}`;
@@ -25,7 +34,7 @@ function extractStrapiMediaUrls(media: any): string[] {
 	if (Array.isArray(media)) {
 		return media
 			.map((item): string | undefined => extractStrapiMediaUrl(item))
-			.filter((url): url is string => Boolean(url));
+			.filter((url: string | undefined): url is string => Boolean(url));
 	}
 
 	const data = Array.isArray(media?.data)
@@ -36,7 +45,7 @@ function extractStrapiMediaUrls(media: any): string[] {
 
 	return data
 		.map((item: any): string | undefined => extractStrapiMediaUrl(item))
-		.filter((url): url is string => Boolean(url));
+		.filter((url: string | undefined): url is string => Boolean(url));
 }
 
 // Blog kolekce
@@ -50,13 +59,23 @@ const blog = defineCollection({
 
 		return data.map((item) => {
 			const attributes = item.attributes || item;
-			const id = attributes.slug || item.id.toString();
+			const strapiId = typeof item.id === 'number' ? item.id : Number(item.id);
+			const explicitSlug = typeof attributes.slug === 'string' ? attributes.slug.trim() : '';
+			const titleForSlug = typeof attributes.title === 'string' ? attributes.title : '';
+			const generatedSlugBase = slugify(titleForSlug);
+			const generatedSlug = generatedSlugBase
+				? `${generatedSlugBase}-${strapiId}`
+				: String(strapiId);
+			const slug = explicitSlug || generatedSlug;
+			const id = slug;
 
 			const heroImage = extractStrapiMediaUrl(attributes.heroImage);
 			const gallery = extractStrapiMediaUrls(attributes.gallery);
 
 			return {
 				id,
+				slug,
+				strapiId,
 				title: attributes.title,
 				description: attributes.description,
 				pubDate: attributes.pubDate,
@@ -69,6 +88,8 @@ const blog = defineCollection({
 		});
 	},
 	schema: z.object({
+		slug: z.string(),
+		strapiId: z.coerce.number().int(),
 		title: z.string(),
 		description: z.string(),
 		pubDate: z.coerce.date(),

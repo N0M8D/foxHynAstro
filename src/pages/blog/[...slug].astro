@@ -5,14 +5,33 @@ import { marked } from "marked";
 
 export async function getStaticPaths() {
 	const posts = await getCollection("blog");
-	return posts.map((post) => ({
-		params: { slug: post.id },
-		props: post,
-	}));
-}
-type Props = CollectionEntry<"blog">;
+	return posts.flatMap((post) => {
+		const canonical = {
+			params: { slug: post.id },
+			props: { post, redirectTo: null as string | null },
+		};
 
-const post = Astro.props;
+		const legacy = post.data?.strapiId
+			? {
+					params: { slug: String(post.data.strapiId) },
+					props: { post, redirectTo: `/blog/${post.id}/` },
+				}
+			: null;
+
+		return legacy ? [canonical, legacy] : [canonical];
+	});
+}
+type Props = {
+	post: CollectionEntry<"blog">;
+	redirectTo: string | null;
+};
+
+const { post, redirectTo } = Astro.props as Props;
+
+if (redirectTo) {
+	return Astro.redirect(redirectTo, 301);
+}
+
 const content = await marked.parse(post.data.content || "");
 ---
 
