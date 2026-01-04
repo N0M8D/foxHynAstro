@@ -15,26 +15,21 @@
     </div>
 </div>
 
-<script>
+<script is:inline>
     // Declare Matomo _paq interface
-    declare global {
-        interface Window {
-            _paq: any[];
-        }
-    }
 
     // Check if user has already made a choice
-    function getCookieConsent(): string | null {
+    function getCookieConsent() {
         return localStorage.getItem("cookieConsent");
     }
 
     // Set cookie consent
-    function setCookieConsent(consent: string): void {
+    function setCookieConsent(consent) {
         localStorage.setItem("cookieConsent", consent);
     }
 
     // Show or hide cookie banner
-    function showCookieBanner(): void {
+    function showCookieBanner() {
         const consent = getCookieConsent();
         if (!consent) {
             const banner = document.getElementById("cookie-consent");
@@ -45,7 +40,7 @@
     }
 
     // Hide cookie banner
-    function hideCookieBanner(): void {
+    function hideCookieBanner() {
         const banner = document.getElementById("cookie-consent");
         if (banner) {
             banner.style.display = "none";
@@ -53,8 +48,8 @@
     }
 
     // Initialize Matomo tracking
-    function initMatomo(): void {
-        if (typeof window._paq !== "undefined") {
+    function initMatomo() {
+        if (window._paq) {
             window._paq.push(["trackPageView"]);
             window._paq.push(["enableLinkTracking"]);
 
@@ -78,8 +73,8 @@
     }
 
     // Disable Matomo tracking
-    function disableMatomo(): void {
-        if (typeof window._paq !== "undefined") {
+    function disableMatomo() {
+        if (window._paq) {
             window._paq.push(["optUserOut"]);
         }
     }
