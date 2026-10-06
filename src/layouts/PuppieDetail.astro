@@ -1,83 +1,36 @@
 ---
-import type { CollectionEntry } from "astro:content";
 import Layout from "../layouts/Layout.astro";
 import Gallery from "../components/Gallery.astro";
 
-type Props = CollectionEntry<"puppies">["data"];
-const {
-    title,
-    name,
-    breed,
-    born,
-    coat,
-    health,
-    activities,
-    parents,
-    titles,
-    shows,
-    gallery = [],
-} = Astro.props;
+type Props = {
+    name: string;
+    title?: string;
+    facts?: { label: string; value: string }[];
+    gallery?: string[];
+    backHref?: string;
+};
+const { name, title, facts = [], gallery = [], backHref = "./" } = Astro.props;
 ---
 
-<Layout title={title} description={breed}>
+<Layout title={title || name} description={name}>
     <article class="puppy-detail">
-        <a href="./" class="back-link">← Zpět na vrh</a>
+        <a href={backHref} class="back-link">← Zpět</a>
 
         <h1>{name}</h1>
         <slot />
 
-        <h2>{title}</h2>
-        <ul>
-            <li><b>Plemeno:</b> {breed}</li>
-            <li><b>Datum narození:</b> {born.toLocaleDateString("cs-CZ")}</li>
-            {
-                parents && (
-                    <>
+        {title && <h2>{title}</h2>}
+        {
+            facts.length > 0 && (
+                <ul>
+                    {facts.map((f) => (
                         <li>
-                            <b>Matka:</b> {parents.mom}
+                            {f.label && <b>{f.label}</b>} {f.value}
                         </li>
-                        <li>
-                            <b>Otec:</b> {parents.dad}
-                        </li>
-                    </>
-                )
-            }
-            {
-                coat && (
-                    <li>
-                        <b>Srst:</b> {coat}
-                    </li>
-                )
-            }
-            {
-                health && (
-                    <li>
-                        <b>Zdraví:</b> {health}
-                    </li>
-                )
-            }
-            {
-                activities && (
-                    <li>
-                        <b>Aktivity:</b> {activities}
-                    </li>
-                )
-            }
-            {
-                titles && (
-                    <li>
-                        <b>Tituly:</b> {titles}
-                    </li>
-                )
-            }
-            {
-                shows && (
-                    <li>
-                        <b>Závody:</b> {shows}
-                    </li>
-                )
-            }
-        </ul>
+                    ))}
+                </ul>
+            )
+        }
 
         {gallery.length > 0 && <Gallery images={gallery} alt={name} />}
     </article>

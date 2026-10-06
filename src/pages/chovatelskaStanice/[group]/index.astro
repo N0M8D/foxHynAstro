@@ -1,0 +1,75 @@
+---
+import { marked } from "marked";
+import Layout from "../../../layouts/Layout.astro";
+import LinkGrid from "../../../components/LinkGrid.astro";
+import { getGroup, getProfiles } from "../../../lib/cms/content";
+
+export const prerender = false;
+
+const slug = Astro.params.group ?? "";
+
+let group, profiles;
+try {
+    [group, profiles] = await Promise.all([getGroup(slug), getProfiles(slug)]);
+} catch (error) {
+    console.error(`[chovatelskaStanice] Načtení skupiny "${slug}" selhalo.`, error);
+    return new Response("Obsah je dočasně nedostupný.", { status: 503 });
+}
+if (!group || group.parent !== "chovatelska-stanice") {
+    return new Response("Stránka nenalezena.", { status: 404 });
+}
+
+const items = profiles.map((p) => ({
+    title: p.name,
+    href: `/chovatelskaStanice/${slug}/${p.slug}`,
+    imageUrl: p.image ?? "",
+}));
+const content = await marked.parse(group.body);
+---
+
+<Layout title={group.title} description={group.description}>
+    <section class="vrh-a">
+        <h1>{group.title}</h1>
+        <LinkGrid items={items} />
+
+        <div class="vrh-a__text" set:html={content} />
+    </section>
+</Layout>
+
+<style>
+    .vrh-a {
+        max-width: 960px;
+        margin: auto;
+        padding: 3rem 1rem;
+    }
+    .vrh-a h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 2rem;
+        color: rgb(var(--black));
+    }
+    .vrh-a__text {
+        margin-top: 3rem;
+        line-height: 1.6;
+    }
+    .vrh-a__text :global(h5) {
+        margin-top: 2rem;
+        font-weight: 700;
+        font-size: 1.25rem;
+    }
+    .vrh-a__text :global(p) {
+        margin-top: 0.75rem;
+    }
+    /* certifikát */
+    .vrh-a .plakat {
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .vrh-a .plakat img {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: var(--box-shadow);
+    }
+</style>

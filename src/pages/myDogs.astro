@@ -1,135 +1,37 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import DogCard from "../components/DogCard.astro";
+import { getGroup, getProfiles } from "../lib/cms/content";
 
-const dogs = [
-    {
-        name: "Omega z Otvovické skály (Meggie)",
-        imageUrl: "/images/dogs/meggie/meggie_smecka1.jpg",
-        details: [
-            { label: "Plemeno:", value: "Sheltie" },
-            { label: "Datum narození:", value: "22.11.2017" },
-            { label: "Matka:", value: "Fidorka z Otvovické skály" },
-            { label: "Otec:", value: "Dark z Otvovické skály" },
-            { label: "Srst:", value: "dlouhá, zlatá" },
-            { label: "Zkoušky:", value: "canisterapie" },
-            { label: "Pasení:", value: "NHAT, HWT TS" },
-            { label: "", value: "Meggie je vykastrovaná" },
-        ],
-        description: [
-            
-            "Vyzkoušela agility, pasení hoopers, treibball a rally obedience.",
-            "Nejvíce času jsme strávily u agility a pasení, nyní se věnujeme především treibballu a rally obedience. ",
-            "V rally obedience má slouženou zkoušku ROZ a nyní závodí v RO1.",
-            "Pasení děláme pod vedením trenéra od jejich čtyř měsíců, máme splněné NHAT a HWT TS.",
+export const prerender = false;
 
-            "Má úspěšně složené zkoušky z canisterapie, je citlivá a mazlivá.",
-            "S citlivým přístupem ráda pracuje i s dětmi, její hlavní cílovou skupinou jsou však senioři.",
-            "Je skvělá na polohování v posteli a individuální canisterapii na lůžku.",
-            "Miluje jízdu autem, když může, nenápadně se někomu vcucne do auta.",
+let group, dogs;
+try {
+    [group, dogs] = await Promise.all([getGroup("smecka"), getProfiles("smecka")]);
+} catch (error) {
+    console.error("[myDogs] Načtení obsahu selhalo.", error);
+    return new Response("Obsah je dočasně nedostupný.", { status: 503 });
+}
 
-            "Rozhodla jsem se pro kastraci, když se objevil nález na mléčné žláze.",
-            "Chtěla jsem předejít riziku pyometry (zánětu dělohy).",
-            "Nechtěla jsem, aby musela za krátkou dobu znovu podstoupit anestezii.",
-            "Miluje jízdu autem, když může, nenápadně se někomu vcucne do auta.",
-
-            "Meggie je hravá, veselá, uštěkaná a skvělá modelka na focení.",
-            "Nejlepší hračky jsou pro ní plyšáci a ráda visí na ocase jiného psa",
-            "Ať už při tréninku, terapii nebo jen tak doma, tak platí, že Meggie je moje zlatá sluníčko..",
-            
-
-        ]
-    },
-    {
-        name: "Alrischa Mudi Star from the Czech Land (Ariška)",
-        imageUrl: "/images/dogs/ariska/arisa_smecka1.JPG",
-        details: [
-            { label: "Plemeno:", value: "Mudi" },
-            { label: "Datum narození:", value: "19.05.2018" },
-            { label: "Matka:", value: "Mecseki Bundás Lexie" },
-            { label: "Otec:", value: "Angyali Álom Aszu" },
-            { label: "Srst:", value: "kadeřavá, blue merle" },
-            {
-                label: "Zdraví:",
-                value: "DKK B/B, DLK 0/0, spondylóza negativní, patelly 0/0, DOV prosté",
-            },
-            { label: "Výška:", value: "42 cm" },
-            { label: "Zkouška:", value: "NHAT" },
-            {
-                label: "Výstavy:",
-                value: "Český junior šampion,1 R.CAC, 2x CAC, 2x CACIB, 1x BOB",
-            },
-            { label: "", value: "Chovná fena" },
-        ],
-        description: [
-            "Ariška přišla nečekaně, plemeno mudi mě zaujalo na Facebooku a náhodou jsme objevili inzerát na blue merle fenečku",
-            "Byla vrácená původní majitelkou, ale u mě okamžitě našla domov – od štěněte je mou věrnou parťačkou.",
-            "Vypadá trochu jako hyena, ale srdce má zlaté.",
-            "Je nesmírně chytrá, přemýšlivá a má silný pracovní zápal",
-
-             "Nyní se věnujeme rally obedience, obedience a treibballu, příležitostně i pasení",
-            "Nejvíce a nejdéle jsme se věnovaly agility a pasení.",
-            "Vyzkoušela také obrany, hoopers, frisbee a canicross.",
-            "Pasení začala už ve třech měsících, ovce ji fascinovaly od první chvíle",
-
-            "Na canisterapii chodíme k dětem i k seniorům",
-            "U dětí má vše svá jasná pravidla, člověk nikdy neví, co se stane",
-            "Se seniory je Ariška mnohem klidnější, citlivější a soustředěnější.",
-        
-
-            "Ariška je chovná fena, právě díky ní vznikla moje chovatelská stanice a značka Foxhyn",
-            "Název je kombinací lišky, hyeny a osobního příběhu, vzniklo logo, web i nový směr na sociálních sítích",
-            
-            
-        ],
-    },
-    {
-        name: "Aurelius Foxhyn (Auri)",
-        imageUrl: "/images/dogs/aurelius/aurelius_smecka1.jpg",
-        details: [
-            { label: "Plemeno:", value: "Mudi" },
-            { label: "Datum narození:", value: "18.07.2022" },
-            {
-                label: "Matka:",
-                value: "Alrischa Mudi Star from the Czech Land",
-            },
-            { label: "Otec:", value: "Szélvigyázó… “Kerka”" },
-            { label: "Srst:", value: "krátká, plavá" },
-            { label: "Zkouška:", value: "—" },
-            { label: "Pasení:", value: "—" },
-            { label: "", value: "Štěně, potenciálně chovný" },
-        ],
-        description: [
-            "Aurelis už dávno není štěně, má tři roky a je to pes s obrovským elánem a chutí pracovat.",
-            "Je sama energie, nezastavitelný, pořád v pohybu a připravený něco dělat.",
-            "I když letí ve vysoké rychlosti, dokáže u práce přemýšlet a hledat vlastní řešení",
-            "Povahou je spíše rezervovaný, k cizím přistupuje s odstupem, ale mně je oddaný.",
-
-            "Vyzkoušel si agility, frisbee, pasení i obrany.",
-            "Momentálně se věnujeme obedience a treibbalu, ale frisbee si pořád s radostí chytí.",
-            "Je to velký hopík, skákání do vzduchu je jeho velká vášeň, stejně jako učení nových věcí",
-            
-            
-            
-        ],
-    },
-];
+const paragraphs = (body: string) =>
+    body
+        .split("\n\n")
+        .map((p) => p.trim())
+        .filter(Boolean);
 ---
 
-<Layout>
+<Layout title={group?.title ?? "Moje smečka"} description={group?.description}>
     <section class="my-dogs">
-        <h1>Moje smečka</h1>
-        <p class="intro">
-            Toto je má smečka, má rodina. Na mých fotkách budou asi nejčastěji…
-        </p>
+        <h1>{group?.title ?? "Moje smečka"}</h1>
+        {group?.description && <p class="intro">{group.description}</p>}
         <div class="stack">
             {
                 dogs.map((dog) => (
                     <DogCard
-                        name={dog.name}
-                        imageUrl={dog.imageUrl}
-                        details={dog.details}
-                        description={dog.description}
+                        name={dog.title || dog.name}
+                        imageUrl={dog.image ?? ""}
+                        details={dog.facts}
+                        description={paragraphs(dog.body)}
                     />
                 ))
             }

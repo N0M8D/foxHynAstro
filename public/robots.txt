@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://foxhyn.com/sitemap-index.xml
-Sitemap: https://foxhyn.com/sitemap-blog.xml
+Sitemap: https://foxhyn.com/sitemap-dynamic.xml

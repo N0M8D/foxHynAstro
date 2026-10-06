@@ -358,3 +358,19 @@ nav a.active {
 		display: inline;
 	}
 }
+/* Vložená videa z CMS (iframe v Markdownu) */
+.video-container {
+	position: relative;
+	padding-bottom: 56.25%;
+	height: 0;
+	overflow: hidden;
+	margin: 2rem 0;
+}
+.video-container iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border: none;
+}
