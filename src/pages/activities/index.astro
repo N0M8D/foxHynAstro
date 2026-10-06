@@ -1,45 +1,30 @@
 ---
 import Layout from "../../layouts/Layout.astro";
 import LinkGrid from "../../components/LinkGrid.astro";
+import { getGroup, getPages } from "../../lib/cms/content";
 
-interface Item {
-    title: string;
-    href: string;
-    imageUrl: string;
+export const prerender = false;
+
+let group, pages;
+try {
+    [group, pages] = await Promise.all([getGroup("activities"), getPages("activities")]);
+} catch (error) {
+    console.error("[activities] Načtení obsahu selhalo.", error);
+    return new Response("Obsah je dočasně nedostupný.", { status: 503 });
 }
 
-const activities: Item[] = [
-    {
-        title: "Focení a úprava",
-        href: "/activities/foceni-uprava",
-        imageUrl: "/images/activities/foceni/foceni2.jpg",
-    },
-    {
-        title: "Obedience",
-        href: "/activities/obedience",
-        imageUrl: "/images/activities/obedience/obedience6.jpg",
-    },
-
-    {
-        title: "Treibball",
-        href: "/activities/treibball",
-        imageUrl: "/images/activities/treibball/treibball9.JPG",
-    },
-     {
-        title: "Archiv aktivit",
-        href: "/activities/agility",
-        imageUrl: "/images/activities/agility/agility1.jpg",
-    },
-];
+const items = pages.map((p) => ({
+    title: p.title,
+    href: `/activities/${p.slug}`,
+    imageUrl: p.image ?? "",
+}));
 ---
 
-<Layout>
+<Layout title={group?.title ?? "Aktivity"} description={group?.description}>
     <section class="activities">
-        <h1>Aktivity</h1>
-        <p class="activities__intro">
-            Podívejte se na aktivity, kterým se s naší smečkou věnujeme.
-        </p>
-        <LinkGrid items={activities} />
+        <h1>{group?.title ?? "Aktivity"}</h1>
+        {group?.description && <p class="activities__intro">{group.description}</p>}
+        <LinkGrid items={items} />
     </section>
 </Layout>
 

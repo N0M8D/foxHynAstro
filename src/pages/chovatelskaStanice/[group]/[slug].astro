@@ -1,0 +1,30 @@
+---
+import { marked } from "marked";
+import PuppieDetail from "../../../layouts/PuppieDetail.astro";
+import { getProfile } from "../../../lib/cms/content";
+
+export const prerender = false;
+
+const { group = "", slug = "" } = Astro.params;
+
+let profile;
+try {
+    profile = await getProfile(slug, group);
+} catch (error) {
+    console.error(`[chovatelskaStanice] Načtení profilu "${slug}" selhalo.`, error);
+    return new Response("Obsah je dočasně nedostupný.", { status: 503 });
+}
+if (!profile) return new Response("Stránka nenalezena.", { status: 404 });
+
+const content = await marked.parse(profile.body);
+---
+
+<PuppieDetail
+    name={profile.name}
+    title={profile.title}
+    facts={profile.facts}
+    gallery={profile.gallery}
+    backHref={`/chovatelskaStanice/${group}/`}
+>
+    <div set:html={content} />
+</PuppieDetail>

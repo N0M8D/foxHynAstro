@@ -1,10 +1,9 @@
 ---
 // src/layouts/ActivityDetail.astro
-import type { CollectionEntry } from "astro:content";
 import Gallery from "../components/Gallery.astro";
 import Layout from "./Layout.astro";
 
-type Props = CollectionEntry<"activities">["data"];
+type Props = { title: string; description?: string; gallery?: string[] };
 const { title, description, gallery } = Astro.props as Props;
 ---
 

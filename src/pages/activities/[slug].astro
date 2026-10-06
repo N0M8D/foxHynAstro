@@ -1,29 +1,22 @@
 ---
-// src/pages/aktivity/[slug].astro
-import { getCollection, render } from "astro:content";
-import ActivityDetail from "../../layouts/ActivityDetail.astro"; // nebo použij Layout
+import { marked } from "marked";
+import ActivityDetail from "../../layouts/ActivityDetail.astro";
+import { getPage } from "../../lib/cms/content";
 
-export async function getStaticPaths() {
-    const activities = await getCollection("activities");
-    return activities.map((act) => ({
-        params: { slug: act.id.replace(/\.mdx?$/, "") },
-    }));
+export const prerender = false;
+
+let page;
+try {
+    page = await getPage(Astro.params.slug ?? "", "activities");
+} catch (error) {
+    console.error("[activities] Načtení aktivity selhalo.", error);
+    return new Response("Obsah je dočasně nedostupný.", { status: 503 });
 }
+if (!page) return new Response("Aktivita nenalezena.", { status: 404 });
 
-const { slug } = Astro.params;
-
-// Najdeme MDX soubor podle slugu:
-const activities = await getCollection("activities");
-const post = activities.find((a) => a.id.replace(/\.mdx?$/, "") === slug);
-
-if (!post) {
-    throw new Error(`Aktivita s id "${slug}" nebyla nalezena.`);
-}
-
-// Vyrenderujeme obsah:
-const { Content } = await render(post);
+const content = await marked.parse(page.body);
 ---
 
-<ActivityDetail {...post.data}>
-    <Content />
+<ActivityDetail title={page.title} description={page.summary} gallery={page.gallery}>
+    <div set:html={content} />
 </ActivityDetail>

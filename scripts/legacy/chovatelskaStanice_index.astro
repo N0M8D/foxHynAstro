@@ -1,0 +1,113 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import LinkGrid from "../../components/LinkGrid.astro";
+
+const litters = [
+    {
+        title: "Vrh A",
+        href: "/chovatelskaStanice/vrhA",
+        imageUrl: "/images/chovatelska_stanice/vrhA/vrhA_nahled.jpg", // nahraď vlastním náhledem
+    },
+
+    // v budoucnu můžeš přidat další položky: { title: 'Vrh B', href: '/vrhB', imageUrl: '/images/vrhB-thumb.jpg' }, …
+];
+---
+
+<Layout>
+    <section class="chovna-stanice">
+        <div class="prose">
+            <h1>Chovatelská stanice Foxhyn</h1>
+
+            <!-- Rozcestník na vrhy -->
+            <h2>Naše vrhy</h2>
+            <LinkGrid items={litters} />
+
+            <h2>✨ Jak vzniklo jméno Foxhyn? Příběh dvou výjimečných fen ✨</h2>
+            <p>
+                Každý příběh má svůj začátek. Ten můj začal se sheltinkou
+                Meggie.
+            </p>
+            <p>
+                Doufala jsem, že právě s ní projdu všemi výstavami, uchovněním a
+                jednou založím chovatelskou stanici. Osud měl ale jiné plány –
+                chovnou fenou se nakonec nestala. Jenže kdyby se to povedlo,
+                možná bych nikdy nepoznala Arišku.
+            </p>
+            <p>
+                A právě Ariška se stala tou, s kterou jsem si všemi těmi kroky
+                prošla – výstavami, uchovněním, vyšetřeními i rentgeny. Ale když
+                přišlo na výběr jména chovatelské stanice, věděla jsem, že se
+                musí spojit obě moje holky.
+            </p>
+
+            <h3>🐾 Meggie – moje malá zlatá lištička</h3>
+            <p>
+                Každý, kdo ji viděl, mi říkal: „Vypadá jako liška!“ A já to
+                viděla stejně – vždycky mi připomínala chytrou, elegantní
+                lištičku, která se pohybuje lesem s lehkostí a šarmem.
+            </p>
+
+            <h3>🐾 Ariška – moje malá hyena</h3>
+            <p>
+                Divoká, energická, s velkým srdcem a smíchem, který by se dal
+                slyšet na kilometry daleko.
+            </p>
+
+            <h2>A tak se to spojilo</h2>
+            <p>Fox (liška) + Hyn (hyena) = Foxhyn. 🦊🐺</p>
+            <p>
+                Název, který v sobě nese obě mé fenky – tu, která mě přivedla k
+                chovu, i tu, se kterou jsem si tím vším prošla. Protože každý
+                konec je zároveň začátkem něčeho nového. 💛✨
+            </p>
+        </div>
+
+        <!-- Certifikát – menší náhled -->
+        <div class="certificate">
+            <img
+                src="/images/chovatelska_stanice/chovatelska_stanice.jpg"
+                alt="Certifikát chovatelské stanice Foxhyn"
+            />
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .chovna-stanice {
+        max-width: 800px;
+        margin: auto;
+        padding: 3rem 1rem;
+    }
+    .chovna-stanice h1 {
+        text-align: center;
+        font-size: 2.5rem;
+        margin-bottom: 1.5rem;
+        color: rgb(var(--black));
+    }
+    .chovna-stanice h2 {
+        margin-top: 2rem;
+        font-size: 1.75rem;
+        color: rgb(var(--black));
+    }
+    .chovna-stanice h3 {
+        margin-top: 1.5rem;
+        font-size: 1.25rem;
+        color: rgb(var(--black));
+    }
+    .chovna-stanice .prose p {
+        margin-bottom: 1rem;
+        color: rgb(var(--gray-dark));
+    }
+    /* certifikát */
+    .chovna-stanice .certificate {
+        text-align: center;
+        margin: 2rem 0;
+    }
+    .chovna-stanice .certificate img {
+        max-width: 500px;
+        width: 100%;
+        height: auto;
+        border-radius: 8px;
+        box-shadow: var(--box-shadow);
+    }
+</style>
