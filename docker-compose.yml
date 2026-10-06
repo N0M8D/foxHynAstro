@@ -1,0 +1,37 @@
+# Portainer stack. Image se staví na GitHubu (ghcr.io), Portainer jen stahuje a spouští.
+# Proměnné se zadávají v Portaineru (stack env). Vzor: .env.example
+services:
+  web:
+    image: ghcr.io/n0m8d/foxhynastro:${IMAGE_TAG:-latest}
+    container_name: foxhyn-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 3000
+      CONTENT_SOURCE: ${CONTENT_SOURCE:-strapi}
+      STRAPI_URL: ${STRAPI_URL:-}
+      STRAPI_TOKEN: ${STRAPI_TOKEN:-}
+      PAYLOAD_URL: ${PAYLOAD_URL:-http://payload:3000}
+      PAYLOAD_PUBLIC_URL: ${PAYLOAD_PUBLIC_URL:-https://payload.czechnomad.cz}
+      PAYLOAD_API_KEY: ${PAYLOAD_API_KEY:-}
+      PAYLOAD_TENANT: ${PAYLOAD_TENANT:-foxhyn}
+      REVALIDATE_SECRET: ${REVALIDATE_SECRET:-}
+      VIRTUAL_HOST: ${APP_HOSTS:?Set APP_HOSTS in Portainer, e.g. foxhyn.com,www.foxhyn.com}
+      VIRTUAL_PORT: 3000
+      VIRTUAL_PROTO: http
+      LETSENCRYPT_HOST: ${APP_HOSTS:?Set APP_HOSTS in Portainer}
+      LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL:-}
+    expose:
+      - "3000"
+    networks:
+      - nginx-proxy
+      - payload-net
+
+networks:
+  nginx-proxy:
+    external: true
+    name: ${NGINX_PROXY_NETWORK_NAME:-nginx-proxy}
+  payload-net:
+    external: true
+    name: ${PAYLOAD_NETWORK_NAME:-payload-net}

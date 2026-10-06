@@ -1,10 +1,10 @@
 ---
-import type { CollectionEntry } from "astro:content";
+import type { BlogPost } from "../lib/cms/blog";
 import FormattedDate from "../components/FormattedDate.astro";
 import Layout from "../layouts/Layout.astro";
 import Gallery from "../components/Gallery.astro";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = BlogPost;
 
 const { title, description, pubDate, updatedDate, heroImage, gallery } =
 	Astro.props;

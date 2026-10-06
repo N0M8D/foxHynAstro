@@ -1,11 +1,17 @@
 ---
 import Layout from "../../layouts/Layout.astro";
-import { getCollection } from "astro:content";
 import FormattedDate from "../../components/FormattedDate.astro";
+import { getPosts } from "../../lib/cms/blog";
 
-const posts = (await getCollection("blog")).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+export const prerender = false;
+
+let posts: Awaited<ReturnType<typeof getPosts>> = [];
+try {
+	posts = await getPosts();
+} catch (error) {
+	console.error("[blog] Načtení článků selhalo.", error);
+	Astro.response.status = 503;
+}
 ---
 
 <Layout>
@@ -14,18 +20,18 @@ const posts = (await getCollection("blog")).sort(
 			{
 				posts.map((post) => (
 					<li>
-						<a href={`/blog/${post.data.slug}/`}>
-							{post.data?.heroImage && (
+						<a href={`/blog/${post.slug}/`}>
+							{post.heroImage && (
 								<img
 									width={720}
 									height={360}
-									src={post.data.heroImage}
+									src={post.heroImage}
 									alt=""
 								/>
 							)}
-							<h4 class="title">{post.data.title}</h4>
+							<h4 class="title">{post.title}</h4>
 							<p class="date">
-								<FormattedDate date={post.data.pubDate} />
+								<FormattedDate date={post.pubDate} />
 							</p>
 						</a>
 					</li>

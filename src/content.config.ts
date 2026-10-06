@@ -1,114 +1,5 @@
 import { glob } from 'astro/loaders';
 import { defineCollection, z } from 'astro:content';
-import fetchApi from './lib/strapi';
-
-const STRAPI_BASE_URL = import.meta.env.STRAPI_URL || 'http://localhost:1337';
-
-function slugify(input: string) {
-	return input
-		.normalize('NFD')
-		.replace(/[\u0300-\u036f]/g, '')
-		.toLowerCase()
-		.replace(/[^a-z0-9]+/g, '-')
-		.replace(/(^-|-$)/g, '');
-}
-
-function toAbsoluteUrl(url?: string) {
-	if (!url) return undefined;
-	if (!url.startsWith('http')) return `${STRAPI_BASE_URL}${url}`;
-	return url;
-}
-
-function extractStrapiMediaUrl(media: any): string | undefined {
-	if (!media) return undefined;
-	if (Array.isArray(media)) return extractStrapiMediaUrl(media[0]);
-	if (typeof media === 'string') return toAbsoluteUrl(media);
-	if (Array.isArray(media?.data)) return extractStrapiMediaUrl(media.data[0]);
-
-	const url = media?.data?.attributes?.url ?? media?.attributes?.url ?? media?.url;
-	return toAbsoluteUrl(url);
-}
-
-function extractStrapiMediaUrls(media: any): string[] {
-	if (!media) return [];
-	if (Array.isArray(media)) {
-		return media
-			.map((item): string | undefined => extractStrapiMediaUrl(item))
-			.filter((url: string | undefined): url is string => Boolean(url));
-	}
-
-	const data = Array.isArray(media?.data)
-		? media.data
-		: media?.data
-			? [media.data]
-			: [];
-
-	return data
-		.map((item: any): string | undefined => extractStrapiMediaUrl(item))
-		.filter((url: string | undefined): url is string => Boolean(url));
-}
-
-// Blog kolekce
-const blog = defineCollection({
-	loader: async () => {
-		const data = await fetchApi<any[]>({
-			endpoint: 'fox-hyn-posts', // Zkontrolujte, zda se endpoint jmenuje 'posts' nebo 'foxhyn-posts'
-			query: { populate: '*' },
-			wrappedByKey: 'data',
-		});
-
-		return data.map((item) => {
-			const attributes = item.attributes || item;
-			const documentId =
-				typeof item.documentId === 'string'
-					? item.documentId
-					: typeof attributes.documentId === 'string'
-						? attributes.documentId
-						: typeof item.id === 'string'
-							? item.id
-							: String(item.id);
-
-			const explicitSlug = typeof attributes.slug === 'string' ? attributes.slug.trim() : '';
-			const titleForSlug = typeof attributes.title === 'string' ? attributes.title : '';
-			const generatedSlugBase = slugify(titleForSlug);
-			const docSuffix = documentId.slice(0, 8);
-			const generatedSlug = generatedSlugBase
-				? `${generatedSlugBase}-${docSuffix}`
-				: docSuffix;
-			const slug = explicitSlug || generatedSlug;
-			const id = documentId;
-
-			const heroImage = extractStrapiMediaUrl(attributes.heroImage);
-			const gallery = extractStrapiMediaUrls(attributes.gallery);
-
-			return {
-				id,
-				slug,
-				documentId,
-				title: attributes.title,
-				description: attributes.description,
-				pubDate: attributes.pubDate,
-				updatedDate: attributes.updatedAt,
-				heroImage: heroImage,
-				content: attributes.body, // Tady bereme Markdown z pole 'body'
-				author: typeof attributes.author === 'string' ? attributes.author : undefined,
-				gallery: gallery,
-			};
-		});
-	},
-	schema: z.object({
-		slug: z.string(),
-		documentId: z.string(),
-		title: z.string(),
-		description: z.string(),
-		pubDate: z.coerce.date(),
-		updatedDate: z.coerce.date().optional(),
-		heroImage: z.string().optional(),
-		content: z.string().optional(),
-		author: z.string().optional(),
-		gallery: z.array(z.string()).optional(),
-	}),
-});
 
 // Puppies kolekce
 const puppies = defineCollection({
@@ -144,7 +35,6 @@ const activities = defineCollection({
 });
 
 export const collections = {
-	blog,
 	puppies,
 	activities,
 };
