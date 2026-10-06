@@ -44,6 +44,7 @@ const MIME = {
 	'.webp': 'image/webp',
 	'.gif': 'image/gif',
 	'.avif': 'image/avif',
+	'.svg': 'image/svg+xml',
 };
 
 async function api(method, apiPath, { query, json, form } = {}) {
